@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Ticket Intelligence</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script>
+        function showLoader() {
+            document.getElementById("loader").style.display = "flex";
+        }
+    </script>
+</head>
+<body>
+
+<div class="wrapper">
+
+    <div class="dashboard">
+
+        <h1>🤖 AI Support Ticket Analyzer</h1>
+        <p class="subtitle">Zero-Shot NLP Classification Dashboard</p>
+
+        <form method="POST" onsubmit="showLoader()">
+            <textarea name="ticket_text" placeholder="Enter support ticket here...">{{ ticket_text }}</textarea>
+            <button type="submit">Analyze Ticket</button>
+        </form>
+
+        <div id="loader" class="loader">
+            <div class="spinner"></div>
+            <p>Analyzing with AI...</p>
+        </div>
+
+        {% if zero_tags %}
+        <div class="results">
+
+            <h2>📊 Prediction Results</h2>
+
+            {% for label, score in zero_tags %}
+            <div class="result-item">
+                <div class="label-row">
+                    <span>{{ label }}</span>
+                    <span>{{ "%.1f"|format(score*100) }}%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress" style="width: {{ score*100 }}%"></div>
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
+        {% endif %}
+
+    </div>
+
+</div>
+
+</body>
+</html>
